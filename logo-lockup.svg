@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 88" role="img" aria-label="TED — Technology Enabled Delivery">
+  <rect x="0" y="12" width="64" height="64" rx="16" fill="#e8f3ee"/>
+  <rect x="12" y="26" width="40" height="12" rx="6" fill="#fff" stroke="#cfe3d8" stroke-width="1"/>
+  <rect x="12" y="40" width="40" height="12" rx="6" fill="#8eb9a8"/>
+  <rect x="12" y="54" width="40" height="12" rx="6" fill="#5f8f7d"/>
+  <text x="80" y="38" fill="#111827" font-family="'Plus Jakarta Sans',Figtree,system-ui,sans-serif" font-size="26" font-weight="800" letter-spacing="-0.03em">TED</text>
+  <text x="80" y="58" fill="#111827" font-family="Figtree,system-ui,sans-serif" font-size="13" font-weight="600">Technology Enabled Delivery</text>
+  <text x="80" y="76" fill="#6b7280" font-family="Figtree,system-ui,sans-serif" font-size="12" font-weight="500">Personal, department &amp; organization in one view</text>
+</svg>

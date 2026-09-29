@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./logo-icon.svg">
+<link rel="stylesheet" href="./style.css">
+<title>Ted</title>
+<style>
+  :root {
+    --bg: #F5F6F4;
+    --card: #FFFFFF;
+    --ink: #1E2328;
+    --muted: #6B7280;
+    --border: #E6E8E6;
+    --accent: #2F6F62;
+    --accent-soft: #E7EFEC;
+    --danger: #B3402A;
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    padding: 24px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 380px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px 36px 32px;
+    text-align: center;
+  }
+
+  .mark {
+    /* width: 44px;
+    height: 44px; */
+    border-radius: 10px;
+    /* background: var(--accent-soft); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 18px;
+  }
+
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0 0 28px;
+    line-height: 1.5;
+  }
+
+  #signin-slot {
+    display: flex;
+    justify-content: center;
+    min-height: 44px;
+    margin-bottom: 16px;
+  }
+
+  .note {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin: 18px 0 0;
+    line-height: 1.5;
+  }
+
+  .error {
+    display: none;
+    font-size: 13px;
+    color: var(--danger);
+    background: #FBEDE9;
+    border: 1px solid #F1D2C8;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .error.show { display: block; }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="mark">
+    <img src="./logo-lockup.svg" alt="Ted">
+    </div>
+    <h1>Sign in</h1>
+    <p class="subtitle">Operations Dashboard</p>
+
+    <div id="error" class="error"></div>
+
+    <!-- Google renders its button inside this div -->
+    <div id="signin-slot"></div>
+
+    <p class="note">Restricted to gmail accounts </p>
+  </div>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script>
+    // ---- 1. SETTINGS: edit these two things ----
+    const GOOGLE_CLIENT_ID = "1016435166633-8l4tfripsl138kkrvkb4jpjjo8jvus2p.apps.googleusercontent.com";
+    const ALLOWED_DOMAINS = ["gmail.com"]; // your company domains
+
+    // ---- 2. Decode the JWT Google gives us (no library needed) ----
+    function decodeJwt(token) {
+      const payload = token.split(".")[1];
+      const json = decodeURIComponent(
+        atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
+          .split("")
+          .map(c => "%" + c.charCodeAt(0).toString(16).padStart(2, "0"))
+          .join("")
+      );
+      return JSON.parse(json);
+    }
+
+    function showError(msg) {
+      const el = document.getElementById("error");
+      el.textContent = msg;
+      el.classList.add("show");
+    }
+
+    // ---- 3. This runs after the user picks a Google account ----
+    function handleCredentialResponse(response) {
+      let user;
+      try {
+        user = decodeJwt(response.credential);
+      } catch (e) {
+        showError("Something went wrong reading your account. Try again.");
+        return;
+      }
+
+      const email = user.email || "";
+      const domain = email.split("@")[1] || "";
+      const verified = user.email_verified;
+
+      if (!verified || !ALLOWED_DOMAINS.includes(domain)) {
+        showError(
+          `"${email}" isn't a company account. Sign in with your ${ALLOWED_DOMAINS.join(" or ")} email.`
+        );
+        return;
+      }
+
+      // Store just enough to show a welcome + gate the next page.
+      // This is a convenience check, not real security — see the note in dashboard.html.
+      sessionStorage.setItem("authedUser", JSON.stringify({
+        email: user.email,
+        name: user.name,
+        picture: user.picture,
+      }));
+
+      window.location.href = "dashboard.html";
+    }
+
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleCredentialResponse,
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("signin-slot"),
+        { theme: "outline", size: "large", shape: "pill", width: 300 }
+      );
+
+      // Optional: also show the one-tap prompt
+      // google.accounts.id.prompt();
+    };
+  </script>
+
+</body>
+</html>

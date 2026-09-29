@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<style>
+  :root {
+    --bg: #F5F6F4;
+    --card: #FFFFFF;
+    --ink: #1E2328;
+    --muted: #6B7280;
+    --border: #E6E8E6;
+    --accent: #2F6F62;
+    --accent-soft: #E7EFEC;
+    --sidebar-w: 260px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    display: flex;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    padding: 20px 14px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 4px 6px 18px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+  }
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .brand-mark svg { width: 20px; height: 20px; color: var(--accent); }
+  .brand-text h1 {
+    font-size: 16px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .brand-text p {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin: 2px 0 0;
+    line-height: 1.35;
+  }
+
+  .nav-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 14px 10px 6px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--ink);
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+  }
+  .nav-item:hover { background: #F1F2F0; }
+  .nav-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .nav-item svg { width: 17px; height: 17px; flex-shrink: 0; }
+  .nav-item .chev { margin-left: auto; width: 14px; height: 14px; transition: transform 0.15s ease; }
+  .nav-item.expanded .chev { transform: rotate(180deg); }
+
+  .nav-sub {
+    display: none;
+    flex-direction: column;
+    padding-left: 14px;
+    margin-top: 2px;
+    gap: 1px;
+  }
+  .nav-sub.open { display: flex; }
+  .nav-sub .nav-item { font-size: 13.5px; padding: 8px 10px; }
+  .nav-sub .nav-item svg { width: 15px; height: 15px; }
+
+  .ai-item {
+    align-items: flex-start;
+    padding: 10px;
+  }
+  .ai-item .ai-text p {
+    margin: 2px 0 0;
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.4;
+    font-weight: 400;
+  }
+  .ai-item span { font-weight: 600; }
+
+  /* ---------- Main content ---------- */
+  .content { flex: 1; min-width: 0; }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+  }
+  .who { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  .who img { width: 28px; height: 28px; border-radius: 50%; }
+  .signout {
+    font-size: 13px;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  .signout:hover { background: #F1F2F0; }
+  main { max-width: 640px; margin: 60px auto; padding: 0 24px; }
+  h2 { font-size: 22px; margin: 0 0 8px; }
+  p.lead { color: var(--muted); font-size: 15px; }
+</style>
+</head>
+<body>
+
+  <!-- ================= SIDEBAR ================= -->
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
+      </div>
+      <div class="brand-text">
+        <h1>Growth99</h1>
+        <p>Operations Workspace</p>
+      </div>
+    </div>
+
+    <div class="nav-label">Workspace</div>
+    <a class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      Personal
+    </a>
+    <a class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+      Department
+    </a>
+
+    <a class="nav-item" id="clientsToggle" onclick="toggleClients()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      Clients
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </a>
+    <div class="nav-sub open" id="clientsSub">
+      <a class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+        All Clients
+      </a>
+      <a class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="8" r="4"/><path d="M2 21c0-4 4-6 8-6s8 2 8 6"/><path d="M19 8v6M22 11h-6"/></svg>
+        Onboarding Clients
+      </a>
+      <a class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        Client Base
+      </a>
+      <a class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M6 6l12 12"/></svg>
+        Deactivated Clients
+      </a>
+    </div>
+
+    <a class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Internal projects
+    </a>
+    <a class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/></svg>
+      Support Tickets
+    </a>
+
+    <div class="nav-label">AI Assistant</div>
+    <a class="nav-item ai-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 01-11.7 7.9L3 21l1.6-6.3A8.5 8.5 0 1121 11.5z"/></svg>
+      <div class="ai-text">
+        <span>AI Chat</span>
+        <p>Ask about clients, tasks, and more</p>
+      </div>
+    </a>
+  </nav>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="content">
+    <header>
+      <div class="who" id="who"></div>
+      <button class="signout" onclick="signOut()">Sign out</button>
+    </header>
+
+    <main>
+      <h2>You're in.</h2>
+      <p class="lead">This page only loads for signed-in company accounts.</p>
+    </main>
+  </div>
+
+  <script>
+    const raw = sessionStorage.getItem("authedUser");
+    if (!raw) {
+      window.location.href = "index.html";
+    } else {
+      const user = JSON.parse(raw);
+      document.getElementById("who").innerHTML = `
+        <img src="${user.picture}" alt="" referrerpolicy="no-referrer">
+        <span>${user.name} · ${user.email}</span>
+      `;
+    }
+
+    function signOut() {
+      sessionStorage.removeItem("authedUser");
+      window.location.href = "index.html";
+    }
+
+    function toggleClients() {
+      document.getElementById("clientsSub").classList.toggle("open");
+      document.getElementById("clientsToggle").classList.toggle("expanded");
+    }
+  </script>
+
+</body>
+</html>
